@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blocs & Éléments — Le Ticket</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #F7F6F3;
+      --cream-border: #E5E0D8;
+      --ink: #0C1628;
+      --teal: #0F5744;
+      /* Version colors */
+      --c1: #6366F1; --bg1: #EEF2FF; --b1: #C7D2FE;
+      --c2: #7C3AED; --bg2: #F5F3FF; --b2: #DDD6FE;
+      --c3: #059669; --bg3: #ECFDF5; --b3: #A7F3D0;
+      --c4: #D97706; --bg4: #FFFBEB; --b4: #FDE68A;
+      --c5: #0F5744; --bg5: #F0FDF4; --b5: #BBF7D0;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); margin: 0; }
+    .serif { font-family: 'DM Serif Display', serif; }
+
+    /* ── TOP NAV ── */
+    .top-nav {
+      position: sticky; top: 0; z-index: 50;
+      background: white;
+      border-bottom: 1px solid var(--cream-border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 56px;
+      gap: 24px;
+    }
+    .nav-brand { font-weight: 700; font-size: .95rem; color: var(--ink); text-decoration: none; }
+    .nav-brand span { color: var(--teal); }
+    .nav-sections { display: flex; align-items: center; gap: 6px; }
+    .nav-sec-link {
+      font-size: .78rem; font-weight: 500; color: #6B7280;
+      text-decoration: none; padding: 5px 10px; border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .nav-sec-link:hover { background: var(--cream); color: var(--ink); }
+    .nav-back {
+      font-size: .78rem; font-weight: 500; color: var(--teal);
+      text-decoration: none; padding: 5px 10px; border-radius: 6px;
+      border: 1px solid var(--cream-border);
+      transition: border-color .15s;
+    }
+    .nav-back:hover { border-color: var(--teal); }
+
+    /* ── LAYOUT ── */
+    .page-wrap { display: flex; max-width: 1280px; margin: 0 auto; padding: 40px 32px; gap: 40px; }
+
+    /* ── SIDEBAR TOC ── */
+    .toc {
+      width: 192px; flex-shrink: 0;
+      position: sticky; top: 72px;
+      max-height: calc(100vh - 88px);
+      overflow-y: auto;
+    }
+    .toc-title {
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #9CA3AF; margin-bottom: 10px;
+    }
+    .toc-link {
+      display: block; font-size: .78rem; color: #6B7280;
+      text-decoration: none; padding: 5px 8px; border-radius: 6px;
+      transition: background .12s, color .12s;
+      border-left: 2px solid transparent;
+    }
+    .toc-link:hover { color: var(--ink); background: white; }
+    .toc-link.group { color: #9CA3AF; font-size: .7rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 14px 8px 4px; pointer-events: none; }
+    .toc-sep { height: 1px; background: var(--cream-border); margin: 8px 0; }
+
+    /* ── MAIN ── */
+    .main-content { flex: 1; min-width: 0; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { margin-bottom: 48px; }
+    .page-header h1 { font-family: 'DM Serif Display', serif; font-size: 2.2rem; margin: 0 0 8px; }
+    .page-header p { font-size: .9rem; color: #6B7280; margin: 0; line-height: 1.6; }
+    .updated { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid var(--cream-border); border-radius: 100px; padding: 3px 12px; font-size: .72rem; color: #9CA3AF; margin-top: 12px; }
+    .updated-dot { width: 6px; height: 6px; background: #22C55E; border-radius: 50%; }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-family: 'DM Serif Display', serif; font-size: 1.4rem;
+      margin: 0 0 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--cream-border);
+    }
+    .section-wrap { margin-bottom: 56px; }
+
+    /* ── VERSION LEGEND ── */
+    .v-legend { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+    .v-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 100px; font-size: .74rem; font-weight: 600;
+    }
+    .v-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .v1p { background: var(--bg1); color: var(--c1); border: 1px solid var(--b1); }
+    .v2p { background: var(--bg2); color: var(--c2); border: 1px solid var(--b2); }
+    .v3p { background: var(--bg3); color: var(--c3); border: 1px solid var(--b3); }
+    .v4p { background: var(--bg4); color: var(--c4); border: 1px solid var(--b4); }
+    .v5p { background: var(--bg5); color: var(--c5); border: 1px solid var(--b5); }
+
+    /* ── MATRIX TABLE ── */
+    .matrix-wrap { background: white; border: 1px solid var(--cream-border); border-radius: 16px; overflow: hidden; overflow-x: auto; }
+    .matrix-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+    .matrix-table thead th {
+      padding: 11px 14px; font-size: .7rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: #9CA3AF;
+      background: #FAFAF9; border-bottom: 1px solid var(--cream-border);
+      text-align: center;
+    }
+    .matrix-table thead th:first-child { text-align: left; width: 220px; }
+    .matrix-table thead th:last-child { text-align: left; }
+    .matrix-table tbody tr { border-bottom: 1px solid #F3F4F6; }
+    .matrix-table tbody tr:last-child { border-bottom: none; }
+    .matrix-table tbody tr:hover td { background: #FAFAF9; }
+    .matrix-table td { padding: 11px 14px; text-align: center; vertical-align: middle; }
+    .matrix-table td:first-child { text-align: left; font-size: .85rem; font-weight: 500; }
+    .matrix-table td:last-child { text-align: left; font-size: .75rem; color: #9CA3AF; }
+    .matrix-table td a { color: var(--teal); text-decoration: none; }
+    .matrix-table td a:hover { text-decoration: underline; }
+    .matrix-group td { background: #FAFAF9; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9CA3AF; padding: 8px 14px; }
+
+    /* Version dots in matrix */
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot-1 { background: var(--c1); }
+    .dot-2 { background: var(--c2); }
+    .dot-3 { background: var(--c3); }
+    .dot-4 { background: var(--c4); }
+    .dot-5 { background: var(--c5); }
+    .dot-off { background: #E5E7EB; }
+
+    /* ── SHARED ELEMENTS GRID ── */
+    .shared-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .shared-card {
+      background: white; border: 1px solid var(--cream-border); border-radius: 12px; padding: 16px;
+    }
+    .shared-card-name { font-weight: 600; font-size: .88rem; margin-bottom: 4px; }
+    .shared-card-desc { font-size: .78rem; color: #9CA3AF; line-height: 1.5; margin-bottom: 10px; }
+    .shared-versions { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    /* ── BLOCK CARDS ── */
+    .block-card {
+      background: white; border: 1px solid var(--cream-border);
+      border-radius: 16px; overflow: hidden; margin-bottom: 20px;
+    }
+    .block-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 18px 22px; border-bottom: 1px solid var(--cream-border);
+      flex-wrap: wrap; gap: 10px;
+    }
+    .block-name { font-weight: 700; font-size: .95rem; flex: 1; min-width: 140px; }
+    .block-desc { font-size: .78rem; color: #9CA3AF; line-height: 1.5; flex-basis: 100%; margin-top: 2px; }
+    .block-versions { display: flex; gap: 4px; }
+
+    /* Element table inside block card */
+    .elem-table { width: 100%; border-collapse: collapse; }
+    .elem-table thead th {
+      padding: 9px 16px; font-size: .66rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: #9CA3AF;
+      background: #FAFAF9; border-bottom: 1px solid var(--cream-border);
+      text-align: center;
+    }
+    .elem-table thead th:first-child { text-align: left; width: 200px; }
+    .elem-table thead th:last-child { text-align: left; }
+    .elem-table td {
+      padding: 10px 16px; font-size: .8rem;
+      border-bottom: 1px solid #F9FAFB;
+      text-align: center; vertical-align: middle;
+    }
+    .elem-table td:first-child { text-align: left; font-weight: 500; }
+    .elem-table td:last-child { text-align: left; color: #9CA3AF; font-size: .74rem; }
+    .elem-table tr:last-child td { border-bottom: none; }
+    .elem-table tr:hover td { background: #FAFAF9; }
+
+    /* version inline badge (small) */
+    .vb {
+      display: inline-block; padding: 1px 6px; border-radius: 100px;
+      font-size: .66rem; font-weight: 700;
+    }
+    .vb1 { background: var(--bg1); color: var(--c1); }
+    .vb2 { background: var(--bg2); color: var(--c2); }
+    .vb3 { background: var(--bg3); color: var(--c3); }
+    .vb4 { background: var(--bg4); color: var(--c4); }
+    .vb5 { background: var(--bg5); color: var(--c5); }
+  </style>
+</head>
+<body>
+
+  <!-- ── TOP NAV ── -->
+  <nav class="top-nav">
+    <a href="index.html" class="nav-brand">Le Ticket <span>·</span> Référence</a>
+    <div class="nav-sections">
+      <a href="#overview" class="nav-sec-link">Vue d'ensemble</a>
+      <a href="#shared" class="nav-sec-link">Éléments globaux</a>
+      <a href="#nav-blocks" class="nav-sec-link">Navigation</a>
+      <a href="#content-blocks" class="nav-sec-link">Blocs</a>
+    </div>
+    <a href="index.html" class="nav-back">← Versions</a>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- ── SIDEBAR TOC ── -->
+    <aside class="toc">
+      <div class="toc-title">Sur cette page</div>
+      <a href="#overview" class="toc-link">Vue d'ensemble</a>
+      <a href="#shared" class="toc-link">Éléments globaux</a>
+      <div class="toc-sep"></div>
+      <span class="toc-link group">Navigation</span>
+      <a href="#b-topnav" class="toc-link">Top nav</a>
+      <a href="#b-sidebar" class="toc-link">Sidebar</a>
+      <div class="toc-sep"></div>
+      <span class="toc-link group">Blocs</span>
+      <a href="#b-announce" class="toc-link">Announcement bar</a>
+      <a href="#b-hero" class="toc-link">Hero</a>
+      <a href="#b-logobar" class="toc-link">Logo bar</a>
+      <a href="#b-featured" class="toc-link">Featured articles</a>
+      <a href="#b-latest" class="toc-link">Latest articles</a>
+      <a href="#b-interviews" class="toc-link">Interviews</a>
+      <a href="#b-collections" class="toc-link">Collections</a>
+      <a href="#b-formats" class="toc-link">Formats</a>
+      <a href="#b-archives" class="toc-link">Archives</a>
+      <a href="#b-podcast" class="toc-link">Podcast section</a>
+      <a href="#b-jtbd-nav" class="toc-link">JTBD nav</a>
+      <a href="#b-recent" class="toc-link">Recent content</a>
+      <a href="#b-testimonials" class="toc-link">Testimonials</a>
+      <a href="#b-content" class="toc-link">Content sections</a>
+      <a href="#b-mostread" class="toc-link">Most read</a>
+      <a href="#b-episodes" class="toc-link">Episodes</a>
+      <a href="#b-pricing" class="toc-link">Pricing</a>
+      <a href="#b-faq" class="toc-link">FAQ</a>
+      <a href="#b-newsletter" class="toc-link">Newsletter CTA</a>
+      <a href="#b-footer" class="toc-link">Footer</a>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main-content">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <h1 class="serif">Blocs &amp; Éléments</h1>
+        <p>Référence des blocs et éléments utilisés dans les homepages Le Ticket, version par version.</p>
+        <div class="updated"><span class="updated-dot"></span> Mis à jour · v5 · mars 2026</div>
+      </div>
+
+      <!-- ── SECTION 1 : VUE D'ENSEMBLE ── -->
+      <div class="section-wrap" id="overview">
+        <h2 class="section-title serif">Vue d'ensemble</h2>
+
+        <div class="v-legend">
+          <span class="v-pill v1p"><span class="v-dot" style="background:var(--c1)"></span>v1 — Éditoriale & sobre</span>
+          <span class="v-pill v2p"><span class="v-dot" style="background:var(--c2)"></span>v2 — Contenu réel</span>
+          <span class="v-pill v3p"><span class="v-dot" style="background:var(--c3)"></span>v3 — Sidebar + UI sobre</span>
+          <span class="v-pill v4p"><span class="v-dot" style="background:var(--c4)"></span>v4 — Sidebar + magazine</span>
+          <span class="v-pill v5p"><span class="v-dot" style="background:var(--c5)"></span>v5 — Version actuelle</span>
+        </div>
+
+        <div class="matrix-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Bloc</th>
+                <th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="matrix-group"><td colspan="7">Navigation</td></tr>
+              <tr>
+                <td><a href="#b-topnav">Top nav</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Remplacé par la sidebar dès v2</td>
+              </tr>
+              <tr>
+                <td><a href="#b-sidebar">Sidebar</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Introduite dès v2</td>
+              </tr>
+
+              <tr class="matrix-group"><td colspan="7">Blocs de contenu</td></tr>
+              <tr>
+                <td><a href="#b-announce">Announcement bar</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Présent dans toutes les versions</td>
+              </tr>
+              <tr>
+                <td><a href="#b-hero">Hero</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Pattern différent à chaque version</td>
+              </tr>
+              <tr>
+                <td><a href="#b-logobar">Logo bar</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>CSS marquee infini en v5</td>
+              </tr>
+              <tr>
+                <td><a href="#b-featured">Featured articles</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Remplacé par Latest articles en v4</td>
+              </tr>
+              <tr>
+                <td><a href="#b-latest">Latest articles</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Lignes horizontales (style claude.com)</td>
+              </tr>
+              <tr>
+                <td><a href="#b-interviews">Interviews</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Expert grid v1–v3 ; profile cards v5</td>
+              </tr>
+              <tr>
+                <td><a href="#b-collections">Collections / Guides</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Tabs rôles v1 ; guide cards overlay v2–v3</td>
+              </tr>
+              <tr>
+                <td><a href="#b-formats">Formats</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Unique à v1</td>
+              </tr>
+              <tr>
+                <td><a href="#b-archives">Archives</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Unique à v1</td>
+              </tr>
+              <tr>
+                <td><a href="#b-podcast">Podcast section</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Remplacé par Episodes en v3/v5</td>
+              </tr>
+              <tr>
+                <td><a href="#b-jtbd-nav">JTBD nav</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>Unique à v3 (emoji cards)</td>
+              </tr>
+              <tr>
+                <td><a href="#b-recent">Recent content</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td>"Nouveau sur Le Ticket" — grille cartes verticales</td>
+              </tr>
+              <tr>
+                <td><a href="#b-testimonials">Testimonials</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Dark bg à partir de v2 ; style UGC v2 repris en v5</td>
+              </tr>
+              <tr>
+                <td><a href="#b-content">Content sections</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>App Store grid ×4 ; alternance fond blanc / #F2F4F2</td>
+              </tr>
+              <tr>
+                <td><a href="#b-mostread">Most read</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Grille 2-col numérotée, 6 items</td>
+              </tr>
+              <tr>
+                <td><a href="#b-episodes">Episodes</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Video cards 16:9 + play button</td>
+              </tr>
+              <tr>
+                <td><a href="#b-pricing">Pricing</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Présent dans toutes les versions</td>
+              </tr>
+              <tr>
+                <td><a href="#b-faq">FAQ</a></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-off"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Accordéon &lt;details&gt;/&lt;summary&gt;</td>
+              </tr>
+              <tr>
+                <td><a href="#b-newsletter">Newsletter CTA</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Présent dans toutes les versions</td>
+              </tr>
+              <tr>
+                <td><a href="#b-footer">Footer</a></td>
+                <td><span class="dot dot-1"></span></td>
+                <td><span class="dot dot-2"></span></td>
+                <td><span class="dot dot-3"></span></td>
+                <td><span class="dot dot-4"></span></td>
+                <td><span class="dot dot-5"></span></td>
+                <td>Présent dans toutes les versions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── SECTION 2 : ÉLÉMENTS GLOBAUX ── -->
+      <div class="section-wrap" id="shared">
+        <h2 class="section-title serif">Éléments globaux</h2>
+        <p style="font-size:.85rem;color:#6B7280;margin:0 0 20px;line-height:1.6;">Éléments réutilisés dans plusieurs blocs.</p>
+        <div class="shared-grid">
+
+          <div class="shared-card">
+            <div class="shared-card-name">Eyebrow</div>
+            <div class="shared-card-desc">Petit label en majuscules au-dessus d'un titre. Ex : "Sélection éditoriale"</div>
+            <div class="shared-versions">
+              <span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span>
+            </div>
+          </div>
+
+          <div class="shared-card">
+            <div class="shared-card-name">Section header</div>
+            <div class="shared-card-desc">Eyebrow + titre serif + lien "Voir tout →". En haut de chaque bloc contenu.</div>
+            <div class="shared-versions">
+              <span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span>
+            </div>
+          </div>
+
+          <div class="shared-card">
+            <div class="shared-card-name">Tag</div>
+            <div class="shared-card-desc">Label coloré (fond teal clair). Ex : "IA & Produit", "Stratégie Produit"</div>
+            <div class="shared-versions">
+              <span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span>
+            </div>
+          </div>
+
+          <div class="shared-card">
+            <div class="shared-card-name">Thumbnail</div>
+            <div class="shared-card-desc">Dégradé coloré ou image. Carré (70–90px) ou rectangle selon le contexte.</div>
+            <div class="shared-versions">
+              <span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span>
+            </div>
+          </div>
+
+          <div class="shared-card">
+            <div class="shared-card-name">Excerpt</div>
+            <div class="shared-card-desc">Court texte de présentation d'un article, d'une personne ou d'un épisode.</div>
+            <div class="shared-versions">
+              <span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span>
+            </div>
+          </div>
+
+          <div class="shared-card">
+            <div class="shared-card-name">CTA</div>
+            <div class="shared-card-desc">Call to action — bouton ou lien d'action. Primaire (teal/ambre) ou secondaire (outlined).</div>
+            <div class="shared-versions">
+              <span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── SECTION 3 : NAVIGATION ── -->
+      <div class="section-wrap" id="nav-blocks">
+        <h2 class="section-title serif">Navigation</h2>
+
+        <!-- Top nav -->
+        <div class="block-card" id="b-topnav">
+          <div class="block-header">
+            <div class="block-name">Top nav</div>
+            <div class="block-versions"><span class="vb vb1">v1</span></div>
+            <div class="block-desc">Barre de navigation sticky en haut de page. Remplacée par la sidebar dès v2.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Logo</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Nom + serif</td></tr>
+              <tr><td>Nav links</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Articles, IA, Product, Growth, Podcasts, Archives</td></tr>
+              <tr><td>Se connecter</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Lien discret</td></tr>
+              <tr><td>CTA Premium</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Bouton "Premium →" fond sombre</td></tr>
+              <tr><td>Hamburger</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Menu mobile masqué</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="block-card" id="b-sidebar">
+          <div class="block-header">
+            <div class="block-name">Sidebar</div>
+            <div class="block-versions"><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Navigation latérale fixe sur fond teal (#0F5744). Introduite dès v2, remplace définitivement le top nav.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Logo</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Nom + tagline (v5 : tagline sous le nom)</td></tr>
+              <tr><td>CTA Premium</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Bouton ambre "Devenir Premium"</td></tr>
+              <tr><td>Se connecter</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Bouton outlined</td></tr>
+              <tr><td>Search</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Champ de recherche</td></tr>
+              <tr><td>Nav group</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Label + ensemble de nav items (Formats, Thématiques)</td></tr>
+              <tr><td>Nav item</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Lien individuel avec icône</td></tr>
+              <tr><td>Divider</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Séparateur entre groupes</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── SECTION 4 : BLOCS ── -->
+      <div class="section-wrap" id="content-blocks">
+        <h2 class="section-title serif">Blocs</h2>
+
+        <!-- Announcement bar -->
+        <div class="block-card" id="b-announce">
+          <div class="block-header">
+            <div class="block-name">Announcement bar</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Barre sombre pleine largeur en haut de page. Message d'actualité, promotion ou prochain évènement.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Text</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Message court + mise en gras partielle</td></tr>
+              <tr><td>Link</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Lien souligné ou avec flèche</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Hero -->
+        <div class="block-card" id="b-hero">
+          <div class="block-header">
+            <div class="block-name">Hero</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Section d'accroche principale. Pattern différent à chaque version — v5 passe à un formulaire email sans articles.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Eyebrow</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Ligne + label "Le média des équipes tech européennes"</td></tr>
+              <tr><td>Badge / pill</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Pilule avec point vert + texte audience</td></tr>
+              <tr><td>Headline</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>H1 serif</td></tr>
+              <tr><td>Subheadline</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Description / positionnement</td></tr>
+              <tr><td>Email input</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Uniquement en v5 (remplace la featured card)</td></tr>
+              <tr><td>Primary CTA</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"Lire les articles gratuits" ou "S'inscrire gratuitement"</td></tr>
+              <tr><td>Secondary CTA</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Lien vers l'offre Premium</td></tr>
+              <tr><td>Stats bar</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Rangée de chiffres + labels avec séparateurs</td></tr>
+              <tr><td>Featured article card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-off"></span></td><td>Grande carte avec image, tag, titre, auteur</td></tr>
+              <tr><td>Compact article card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-off"></span></td><td>Petite carte secondaire</td></tr>
+              <tr><td>Manifesto</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Texte de positionnement long (v1–v3)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Logo bar -->
+        <div class="block-card" id="b-logobar">
+          <div class="block-header">
+            <div class="block-name">Logo bar</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Bande de noms d'entreprises membres. Statique en v1–v4, CSS marquee infini en v5 (avec fade sur les bords).</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Label</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"Rejoins les équipes produit de…"</td></tr>
+              <tr><td>Logo item</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Nom ou logo d'entreprise</td></tr>
+              <tr><td>Marquee track</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Piste animée CSS infinie, pause au survol — v5 uniquement</td></tr>
+              <tr><td>Fade edges</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Dégradé de masquage gauche/droite — v5 uniquement</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Featured articles -->
+        <div class="block-card" id="b-featured">
+          <div class="block-header">
+            <div class="block-name">Featured articles</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span></div>
+            <div class="block-desc">Grille asymétrique d'articles mis en avant. 1 grande carte principale + 2–3 cartes secondaires. Remplacé par Latest articles en v4.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Eyebrow + titre + "Voir tout →"</td></tr>
+              <tr><td>Main featured card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Grande carte : image + gradient overlay + tag + titre + excerpt + auteur</td></tr>
+              <tr><td>Secondary card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Carte verticale secondaire (×2 à ×3)</td></tr>
+              <tr><td>Small card row</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>3 petites cartes horizontales sous la grille — v1 uniquement</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Latest articles -->
+        <div class="block-card" id="b-latest">
+          <div class="block-header">
+            <div class="block-name">Latest articles</div>
+            <div class="block-versions"><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Derniers articles en lignes horizontales séparées. Style claude.com/products/claude-code : thumbnail 90px + corps + pill CTA.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Eyebrow + titre + "Voir tous →"</td></tr>
+              <tr><td>Article row</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Ligne flex avec border-bottom</td></tr>
+              <tr><td>Thumbnail</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>90×90px, border-radius 10px</td></tr>
+              <tr><td>Tags</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Un ou deux tags colorés</td></tr>
+              <tr><td>Title</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Titre serif</td></tr>
+              <tr><td>Excerpt</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>2 lignes max</td></tr>
+              <tr><td>Meta</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Date · X min de lecture</td></tr>
+              <tr><td>CTA pill</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"Lire →" pill (bordered, hover teal)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Interviews -->
+        <div class="block-card" id="b-interviews">
+          <div class="block-header">
+            <div class="block-name">Interviews</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Dirigeants tech EU interviewés. Expert grid compact en v1–v3, profile cards 3-col avec photo en v5.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Titre + description + "Voir tout →"</td></tr>
+              <tr><td>Expert card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Fond sombre, grille serrée : avatar + nom + rôle + citation courte</td></tr>
+              <tr><td>Profile card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Carte 3-col : gradient photo + identity + excerpt + link</td></tr>
+              <tr><td>Photo / gradient</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Rectangle gradient en haut de la profile card</td></tr>
+              <tr><td>Identity</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Nom + rôle + entreprise</td></tr>
+              <tr><td>Excerpt</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>3 lignes de description — v5 uniquement</td></tr>
+              <tr><td>Link</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>"Lire l'interview →"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Collections -->
+        <div class="block-card" id="b-collections">
+          <div class="block-header">
+            <div class="block-name">Collections / Guides</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span></div>
+            <div class="block-desc">Contenu organisé : tabs rôles (CEO, CPO…) en v1 ; guide cards avec overlay Premium en v2–v3.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Tabs</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>CEO / CPO / CTO / CMO en v1</td></tr>
+              <tr><td>Tab</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Onglet individuel</td></tr>
+              <tr><td>Article card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Carte verticale dans les collections — v1 uniquement</td></tr>
+              <tr><td>Guide card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Image + overlay texte + badge "Guide Premium"</td></tr>
+              <tr><td>Overlay</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Zone texte semi-transparente sur l'image</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Formats -->
+        <div class="block-card" id="b-formats">
+          <div class="block-header">
+            <div class="block-name">Formats</div>
+            <div class="block-versions"><span class="vb vb1">v1</span></div>
+            <div class="block-desc">Présentation des 3 formats de contenu (Articles, Podcasts, Vidéos). Unique à v1.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Format card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Icône + label + titre + description + liste de contenu + lien</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Archives -->
+        <div class="block-card" id="b-archives">
+          <div class="block-header">
+            <div class="block-name">Archives</div>
+            <div class="block-versions"><span class="vb vb1">v1</span></div>
+            <div class="block-desc">Section "Nouveau sur Le Ticket" — mise en avant des archives accessibles. Unique à v1.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Headline block</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Eyebrow + titre + description (colonne gauche)</td></tr>
+              <tr><td>Archive item</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Thumbnail + titre + compteur vues + note (×3)</td></tr>
+              <tr><td>CTA</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>"Parcourir les 500+ articles →"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Podcast section -->
+        <div class="block-card" id="b-podcast">
+          <div class="block-header">
+            <div class="block-name">Podcast section</div>
+            <div class="block-versions"><span class="vb vb2">v2</span><span class="vb vb3">v3</span></div>
+            <div class="block-desc">Section dédiée aux podcasts avec tabs pour switcher entre séries (Épique / The Product Tape). Remplacé par Episodes en v3/v5.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Tabs</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Épique / The Product Tape</td></tr>
+              <tr><td>Tab</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Onglet individuel</td></tr>
+              <tr><td>Episode card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Thumbnail + n° épisode + invité + description + play button</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- JTBD nav -->
+        <div class="block-card" id="b-jtbd-nav">
+          <div class="block-header">
+            <div class="block-name">JTBD nav</div>
+            <div class="block-versions"><span class="vb vb3">v3</span></div>
+            <div class="block-desc">Grille de navigation par besoin utilisateur (Jobs to be Done), avec emoji. Unique à v3.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Label + titre + description</td></tr>
+              <tr><td>JTBD card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Emoji + titre du besoin + description + "Voir les ressources →" (×6)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Recent content -->
+        <div class="block-card" id="b-recent">
+          <div class="block-header">
+            <div class="block-name">Recent content</div>
+            <div class="block-versions"><span class="vb vb2">v2</span><span class="vb vb3">v3</span></div>
+            <div class="block-desc">"Nouveau sur Le Ticket" — grille de cartes d'articles récents (vertical). Remplacé par Latest articles (horizontal rows) en v4.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Titre + "Voir tout →"</td></tr>
+              <tr><td>Article card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Carte verticale : image + tag + titre + excerpt</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="block-card" id="b-testimonials">
+          <div class="block-header">
+            <div class="block-name">Testimonials</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Grille de témoignages membres. Fond clair en v1, fond sombre à partir de v2. Style UGC v2 (avatar + ancienneté) repris en v5.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Eyebrow + titre centré</td></tr>
+              <tr><td>Testimonial card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td></td></tr>
+              <tr><td>Stars</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>★★★★★ — v1 uniquement</td></tr>
+              <tr><td>Avatar</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Cercle coloré avec initiales</td></tr>
+              <tr><td>Identity</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Nom + rôle + entreprise</td></tr>
+              <tr><td>Since label</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"Abonné·e depuis mois année" — introduit en v2</td></tr>
+              <tr><td>Quote</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Citation en italique</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Content sections -->
+        <div class="block-card" id="b-content">
+          <div class="block-header">
+            <div class="block-name">Content sections</div>
+            <div class="block-versions"><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Pattern App Store / JTBD. Featured card gauche + stack de 3 compacts droite. ×4 sections avec alternance fond blanc / #F2F4F2.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Eyebrow (contexte/persona) + titre JTBD + "Voir tout →"</td></tr>
+              <tr><td>Featured card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Grande carte colonne gauche : image 200px + tag + titre serif + excerpt</td></tr>
+              <tr><td>Image area</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Rectangle gradient en haut de la featured card</td></tr>
+              <tr><td>Card stack</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Colonne droite avec 3 cartes compactes</td></tr>
+              <tr><td>Compact card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Thumbnail 70px + tag + titre</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Most read -->
+        <div class="block-card" id="b-mostread">
+          <div class="block-header">
+            <div class="block-name">Most read</div>
+            <div class="block-versions"><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Palmarès des articles les plus lus. Grille 2 colonnes numérotée (6 items).</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Titre + description</td></tr>
+              <tr><td>Item</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Rang + tag + titre + compteur vues</td></tr>
+              <tr><td>Rank</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"01", "02"… en DM Serif gris clair</td></tr>
+              <tr><td>View count</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"142 000 lectures · Jan. 2026"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Episodes -->
+        <div class="block-card" id="b-episodes">
+          <div class="block-header">
+            <div class="block-name">Episodes</div>
+            <div class="block-versions"><span class="vb vb3">v3</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Les Émissions du Ticket. Grille 3 video cards avec thumbnail 16:9, play button overlay et info auteur.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Titre + "Voir tout →"</td></tr>
+              <tr><td>Episode card</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>border-radius 14px, overflow hidden</td></tr>
+              <tr><td>Video thumbnail</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>aspect-ratio 16/9, gradient</td></tr>
+              <tr><td>Play button</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Overlay sombre + cercle blanc 48px avec ▶</td></tr>
+              <tr><td>Credit</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Prénom Nom · Épisode N</td></tr>
+              <tr><td>Title</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-5"></span></td><td>Titre de l'émission</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pricing -->
+        <div class="block-card" id="b-pricing">
+          <div class="block-header">
+            <div class="block-name">Pricing</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Tableau tarifaire Gratuit vs Premium. Fond teal en v5.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Badge ✦ + titre + description</td></tr>
+              <tr><td>Pricing card</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Gratuit ou Premium</td></tr>
+              <tr><td>Price</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Montant en grand (DM Serif)</td></tr>
+              <tr><td>Period</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>"par mois · résiliable…"</td></tr>
+              <tr><td>Feature list</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Liste d'avantages avec ✓</td></tr>
+              <tr><td>CTA</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Bouton en bas de carte</td></tr>
+              <tr><td>Team plan</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Description offre équipe + lien contact</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- FAQ -->
+        <div class="block-card" id="b-faq">
+          <div class="block-header">
+            <div class="block-name">FAQ</div>
+            <div class="block-versions"><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Questions fréquentes en accordéon HTML natif (&lt;details&gt;/&lt;summary&gt;). Icône + qui rotate à 45° à l'ouverture.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Section header</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Titre + description</td></tr>
+              <tr><td>Accordion</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Conteneur de toutes les questions</td></tr>
+              <tr><td>Question</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>&lt;summary&gt; cliquable avec icône +</td></tr>
+              <tr><td>Answer</td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Texte affiché à l'ouverture du &lt;details&gt;</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Newsletter CTA -->
+        <div class="block-card" id="b-newsletter">
+          <div class="block-header">
+            <div class="block-name">Newsletter CTA</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Section de capture email. "Pas encore prêt pour le Premium ?" en v5 — complément du hero formulaire.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Headline block</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Eyebrow + titre + sous-titre</td></tr>
+              <tr><td>Form</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Email input + bouton submit</td></tr>
+              <tr><td>Disclaimer</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td><span class="dot dot-off"></span></td><td>Texte légal sous le form — v1 uniquement</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="block-card" id="b-footer">
+          <div class="block-header">
+            <div class="block-name">Footer</div>
+            <div class="block-versions"><span class="vb vb1">v1</span><span class="vb vb2">v2</span><span class="vb vb3">v3</span><span class="vb vb4">v4</span><span class="vb vb5">v5</span></div>
+            <div class="block-desc">Pied de page sur fond sombre (#0C1628). Grille 4 colonnes.</div>
+          </div>
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>v1</th><th>v2</th><th>v3</th><th>v4</th><th>v5</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Brand</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Logo + description courte + liens sociaux (Twitter, LinkedIn)</td></tr>
+              <tr><td>Link column</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Groupe de liens (Formats, Thématiques, Le Ticket)</td></tr>
+              <tr><td>Legal</td><td><span class="dot dot-1"></span></td><td><span class="dot dot-2"></span></td><td><span class="dot dot-3"></span></td><td><span class="dot dot-4"></span></td><td><span class="dot dot-5"></span></td><td>Ligne bas de page : copyright + mentions légales</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /section-wrap -->
+    </main>
+  </div>
+
+</body>
+</html>
