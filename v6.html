@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Ticket — Le média des équipes tech européennes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Base ────────────────────────────────────────────── */
+    :root {
+      --cream:        #F7F6F3;
+      --cream-border: #E5E0D8;
+      --ink:          #0C1628;
+      --ink-light:    #4B5563;
+      --ink-muted:    #9CA3AF;
+      --teal:         #0F5744;
+      --teal-mid:     #1A6655;
+      --teal-light:   #EBF6F0;
+      --amber:        #E8A020;
+      --sidebar-w:    260px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: 'DM Serif Display', Georgia, serif; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Layout ──────────────────────────────────────────── */
+    .app-wrap { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--teal);
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; display: flex; flex-direction: column;
+      padding: 1.75rem 1.5rem;
+    }
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+    .main { flex: 1; min-width: 0; background: var(--cream); }
+
+    /* ── Sidebar nav ─────────────────────────────────────── */
+    .sb-logo { font-family: 'DM Serif Display', Georgia, serif; font-size: 22px; color: #fff; display: flex; align-items: center; gap: 10px; margin-bottom: 1.75rem; }
+    .sb-logo-icon { width: 28px; height: 28px; background: #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .sb-logo-icon svg { width: 16px; height: 16px; }
+    .sb-btn-primary { display: block; background: var(--amber); color: #fff; font-weight: 700; font-size: 13px; text-align: center; padding: 10px; border-radius: 8px; margin-bottom: 8px; transition: opacity .15s; }
+    .sb-btn-primary:hover { opacity: .9; }
+    .sb-btn-secondary { display: block; border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.85); font-size: 13px; font-weight: 500; text-align: center; padding: 9px; border-radius: 8px; margin-bottom: 1.5rem; transition: border-color .15s; }
+    .sb-btn-secondary:hover { border-color: rgba(255,255,255,.55); }
+    .sb-section-label { font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: .6rem; }
+    .sb-nav-link { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.72); padding: 5px 0; transition: color .15s; }
+    .sb-nav-link:hover { color: #fff; }
+    .sb-nav-icon { width: 16px; text-align: center; font-size: 12px; flex-shrink: 0; }
+    .sb-divider { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 1.25rem 0; }
+
+    /* ── Gradient placeholders ────────────────────────────── */
+    .img-blue   { background: linear-gradient(135deg, #1E3A8A, #2563EB 60%, #60A5FA); }
+    .img-green  { background: linear-gradient(135deg, #064E3B, #059669 60%, #6EE7B7); }
+    .img-amber  { background: linear-gradient(135deg, #78350F, #D97706 60%, #FCD34D); }
+    .img-purple { background: linear-gradient(135deg, #4C1D95, #7C3AED 60%, #C4B5FD); }
+    .img-rose   { background: linear-gradient(135deg, #881337, #E11D48 60%, #FDA4AF); }
+    .img-slate  { background: linear-gradient(135deg, #1E293B, #475569 60%, #94A3B8); }
+    .img-teal-d { background: linear-gradient(135deg, #0F5744, #1A6655 50%, #34D399); }
+    .img-navy   { background: linear-gradient(135deg, #0C1628, #1E3A5F 60%, #4B9FFF); }
+    .img-indigo { background: linear-gradient(135deg, #312E81, #4F46E5 60%, #A5B4FC); }
+    .img-orange { background: linear-gradient(135deg, #e8500a, #f7971e); }
+
+    /* ── Tags & badges ───────────────────────────────────── */
+    .tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; display: inline-block; }
+    .tag-ia         { background: #EDE9FE; color: #5B21B6; }
+    .tag-product    { background: #DBEAFE; color: #1E40AF; }
+    .tag-growth     { background: #D1FAE5; color: #065F46; }
+    .tag-leadership { background: #FEF3C7; color: #92400E; }
+    .tag-tech       { background: #F1F5F9; color: #334155; }
+    .tag-strategie  { background: #FCE7F3; color: #9D174D; }
+    .tag-emission   { background: #FEF3C7; color: #92400E; }
+    .badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; display: inline-block; }
+    .badge-premium { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+    .badge-free    { background: #D1FAE5; color: #065F46; }
+
+    /* ── Utilities ───────────────────────────────────────── */
+    .eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: .375rem; }
+    .link-teal { font-size: 13px; font-weight: 600; color: var(--teal-mid); white-space: nowrap; }
+    .link-teal:hover { color: var(--teal); }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--cream-border); }
+    .section-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 32px; color: var(--ink); line-height: 1.15; }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      padding: 5rem 3rem 3.5rem;
+      border-bottom: 1px solid var(--cream-border);
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--ink-muted);
+      margin-bottom: 1.25rem;
+    }
+    .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: #34D399; }
+    .hero-pill {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      background: var(--teal-light); color: var(--teal);
+      padding: 4px 14px; border-radius: 9999px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: 46px; line-height: 1.12;
+      color: var(--ink); margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: 16px; color: var(--ink-light);
+      line-height: 1.65; margin-bottom: 2rem;
+    }
+    .hero-form {
+      display: flex; gap: .625rem; max-width: 440px; margin: 0 auto 1rem;
+    }
+    .hero-form input {
+      flex: 1; background: #fff; border: 1.5px solid var(--cream-border);
+      font-size: 14px; padding: 12px 16px; border-radius: 10px;
+      color: var(--ink); outline: none; font-family: inherit;
+    }
+    .hero-form input:focus { border-color: var(--teal-mid); }
+    .hero-form input::placeholder { color: var(--ink-muted); }
+    .hero-form button {
+      background: var(--teal); color: #fff; font-weight: 700;
+      font-size: 14px; padding: 12px 22px; border-radius: 10px;
+      border: none; cursor: pointer; white-space: nowrap; font-family: inherit;
+      transition: background .15s;
+    }
+    .hero-form button:hover { background: #0a4636; }
+    .hero-secondary {
+      font-size: 13px; color: var(--ink-muted);
+    }
+    .hero-secondary a {
+      font-weight: 600; color: var(--teal-mid);
+    }
+    .hero-secondary a:hover { color: var(--teal); }
+
+    /* ── LOGO BAR ─────────────────────────────────────────── */
+    .logos-section {
+      padding: 1.75rem 3rem;
+      border-bottom: 1px solid var(--cream-border);
+      overflow: hidden; position: relative;
+    }
+    .logos-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink-muted);
+      text-align: center; margin-bottom: 1rem;
+    }
+    .logos-track-wrap { position: relative; overflow: hidden; }
+    .logos-track-wrap::before,
+    .logos-track-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2;
+      pointer-events: none;
+    }
+    .logos-track-wrap::before { left: 0; background: linear-gradient(to right, var(--cream), transparent); }
+    .logos-track-wrap::after  { right: 0; background: linear-gradient(to left, var(--cream), transparent); }
+    .logos-track {
+      display: flex; gap: 2.5rem; align-items: center;
+      animation: scroll-logos 30s linear infinite;
+      width: max-content;
+    }
+    @keyframes scroll-logos {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .logo-item {
+      font-size: 15px; font-weight: 600; color: var(--ink-light);
+      white-space: nowrap; opacity: .55;
+    }
+    .logo-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--ink-muted); opacity: .3;
+      display: inline-block;
+    }
+
+    /* ── LATEST ARTICLES ──────────────────────────────────── */
+    .articles-section { padding: 3.5rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .articles-list { display: flex; flex-direction: column; }
+    .article-row {
+      display: flex; align-items: flex-start; gap: 1.25rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid #EDEBE8;
+      transition: background .15s;
+      cursor: pointer;
+    }
+    .article-row:last-child { border-bottom: none; }
+    .article-row:hover { background: rgba(255,255,255,.5); }
+    .art-thumb {
+      width: 120px; aspect-ratio: 16/9;
+      border-radius: 10px; flex-shrink: 0;
+    }
+    .art-body { flex: 1; min-width: 0; }
+    .art-tags { margin-bottom: 6px; display: flex; gap: 6px; }
+    .art-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 17px; line-height: 1.35; color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .art-excerpt {
+      font-size: 13px; color: var(--ink-light);
+      line-height: 1.55; margin-bottom: 6px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .art-meta { font-size: 11px; color: var(--ink-muted); }
+    .art-cta {
+      font-size: 13px; font-weight: 600; color: var(--teal-mid);
+      white-space: nowrap; flex-shrink: 0; align-self: center;
+    }
+
+    /* ── INTERVIEWS ──────────────────────────────────────── */
+    .interviews-section { padding: 3.5rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .interviews-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--cream-border); border: 1px solid var(--cream-border); border-radius: 16px; overflow: hidden;
+    }
+    .expert-card {
+      background: #fff; padding: 1.75rem;
+      transition: background .15s; cursor: pointer;
+    }
+    .expert-card:hover { background: #FAFAF9; }
+    .expert-avatar {
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+    .expert-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+    .expert-role { font-size: 12px; color: var(--ink-muted); }
+    .expert-quote { font-size: 13px; color: var(--ink-light); line-height: 1.6; font-style: italic; margin: .875rem 0; }
+    .expert-link { font-size: 13px; font-weight: 600; color: var(--teal-mid); }
+    .expert-link:hover { color: var(--teal); }
+
+    /* ── JTBD CONTENT SECTIONS ────────────────────────────── */
+    .jtbd-section { padding: 3.5rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .jtbd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .featured-card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid var(--cream-border); box-shadow: 0 1px 3px rgba(0,0,0,.04); transition: transform .2s, box-shadow .2s; cursor: pointer; }
+    .featured-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(12,22,40,.1); }
+    .featured-card .img-zone { aspect-ratio: 16/9; position: relative; }
+    .featured-card .img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.45), transparent); }
+    .featured-card .img-tags { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; }
+    .featured-card .img-time { position: absolute; bottom: 14px; left: 14px; font-size: 11px; color: rgba(255,255,255,.8); }
+    .featured-card .card-body { padding: 1.25rem 1.375rem; }
+    .featured-card .card-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 20px; line-height: 1.3; color: var(--ink); margin-bottom: .625rem; }
+    .featured-card .card-desc { font-size: 13px; color: #6B7280; line-height: 1.6; margin-bottom: 1rem; }
+    .featured-card .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: .875rem; border-top: 1px solid #F3F4F6; }
+    .compact-stack { background: #fff; border-radius: 16px; border: 1px solid var(--cream-border); overflow: hidden; }
+    .compact-item { display: flex; gap: .875rem; padding: 1rem 1.125rem; border-bottom: 1px solid #F3F4F6; transition: background .15s; cursor: pointer; }
+    .compact-item:last-child { border-bottom: none; }
+    .compact-item:hover { background: #FAFAF9; }
+    .compact-thumb { width: 72px; aspect-ratio: 16/9; border-radius: 10px; flex-shrink: 0; }
+    .compact-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin-top: 4px; }
+    .compact-meta { font-size: 11px; color: var(--ink-muted); margin-top: 4px; }
+
+    /* ── EPISODES ──────────────────────────────────────────── */
+    .emissions-section {
+      padding: 3.5rem 3rem; border-bottom: 1px solid var(--cream-border);
+      background: var(--ink);
+    }
+    .emissions-header { text-align: center; margin-bottom: 2rem; }
+    .emissions-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: .5rem; }
+    .emissions-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 32px; color: #fff; margin-bottom: .5rem; }
+    .emissions-sub { font-size: 14px; color: rgba(255,255,255,.5); }
+    .emissions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .video-card { background: #1E2D40; border-radius: 14px; overflow: hidden; transition: transform .2s, box-shadow .2s; cursor: pointer; }
+    .video-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+    .video-thumb { aspect-ratio: 16/9; position: relative; }
+    .play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .play-circle { width: 44px; height: 44px; background: rgba(255,255,255,.88); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; padding-left: 3px; }
+    .video-info { padding: 1rem 1.125rem; }
+    .video-author { font-size: 11px; color: rgba(255,255,255,.45); margin-bottom: 4px; }
+    .video-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 15px; line-height: 1.4; color: #fff; }
+
+    /* ── PRICING ──────────────────────────────────────────── */
+    .pricing-section { padding: 3.5rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 1.25rem; }
+    .pricing-card { background: #fff; border: 1px solid var(--cream-border); border-radius: 16px; padding: 2rem; }
+    .pricing-card.highlighted { background: var(--ink); border-color: var(--ink); }
+    .check-item { display: flex; align-items: flex-start; gap: .625rem; font-size: 14px; color: var(--ink-light); margin-bottom: .625rem; }
+    .check-icon { width: 18px; height: 18px; border-radius: 50%; background: #D1FAE5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .check-icon-premium { background: rgba(232,160,32,.2); }
+    .cross-item { display: flex; align-items: flex-start; gap: .625rem; font-size: 14px; color: var(--ink-muted); text-decoration: line-through; margin-bottom: .625rem; }
+    .cross-icon { width: 18px; height: 18px; border-radius: 50%; background: #F3F4F6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── NEWSLETTER CTA ───────────────────────────────────── */
+    .nl-cta-section {
+      background: #EEF2FF; padding: 4rem 3rem;
+      border-bottom: 1px solid #DBEAFE;
+    }
+    .nl-cta-inner { max-width: 520px; margin: 0 auto; text-align: center; }
+    .nl-cta-inner .eyebrow { color: #6366F1; }
+    .nl-cta-inner h2 { font-family: 'DM Serif Display', Georgia, serif; font-size: 34px; color: var(--ink); margin-bottom: .75rem; line-height: 1.2; }
+    .nl-cta-inner p { font-size: 15px; color: var(--ink-light); line-height: 1.6; margin-bottom: 1.75rem; }
+    .nl-cta-form { display: flex; gap: .625rem; max-width: 420px; margin: 0 auto; }
+    .nl-cta-form input {
+      flex: 1; padding: 12px 16px; border-radius: 12px;
+      border: 1.5px solid #DBEAFE; background: #fff;
+      font-size: 14px; color: var(--ink); outline: none; font-family: inherit;
+    }
+    .nl-cta-form input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+    .nl-cta-form button {
+      background: #2563EB; color: #fff; font-weight: 700;
+      font-size: 14px; padding: 12px 20px; border-radius: 12px;
+      border: none; cursor: pointer; white-space: nowrap; font-family: inherit;
+      transition: background .15s;
+    }
+    .nl-cta-form button:hover { background: #1D4ED8; }
+    .nl-cta-note { font-size: 12px; color: var(--ink-muted); margin-top: .875rem; }
+
+    /* ── FAQ ──────────────────────────────────────────────── */
+    .faq-section { padding: 3.5rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .faq-list { max-width: 700px; }
+    .faq-item { border-bottom: 1px solid var(--cream-border); }
+    .faq-item summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 0; cursor: pointer;
+      font-size: 15px; font-weight: 500; color: var(--ink);
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::marker { display: none; content: ''; }
+    .faq-icon { font-size: 18px; color: var(--ink-muted); transition: transform .2s; }
+    .faq-item[open] .faq-icon { transform: rotate(45deg); }
+    .faq-answer { font-size: 14px; color: var(--ink-light); line-height: 1.7; padding-bottom: 1.25rem; }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    .footer {
+      background: var(--ink); padding: 2rem 3rem;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { font-family: 'DM Serif Display', Georgia, serif; font-size: 18px; color: rgba(255,255,255,.6); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,.35); transition: color .15s; }
+    .footer-links a:hover { color: rgba(255,255,255,.7); }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,.25); }
+  </style>
+</head>
+<body>
+<div class="app-wrap">
+
+  <!-- ═══════════════════════════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════════════════════════════ -->
+  <aside class="sidebar">
+    <!-- Logo -->
+    <a href="/" class="sb-logo">
+      <div class="sb-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0F5744" stroke-width="2.5">
+          <path d="M4 6h16M4 12h10M4 18h13" stroke-linecap="round"/>
+        </svg>
+      </div>
+      LeTicket
+    </a>
+
+    <!-- CTAs -->
+    <a href="#pricing" class="sb-btn-primary">Devenir Premium</a>
+    <a href="#" class="sb-btn-secondary">Se connecter</a>
+
+    <!-- Formats -->
+    <p class="sb-section-label">Formats</p>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">✉</span> La newsletter</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">▶</span> Les Émissions du Ticket</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">◈</span> Les évènements Produit</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">⊞</span> Tous les articles</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">◉</span> Les fiches de lecture</a>
+
+    <hr class="sb-divider" />
+
+    <!-- Thématiques -->
+    <p class="sb-section-label">Thématiques</p>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">⚡</span> IA &amp; Produit</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">◎</span> Les fondamentaux du produit</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">↗</span> Stratégie Produit</a>
+    <a href="#" class="sb-nav-link"><span class="sb-nav-icon">◑</span> Roadmap &amp; OKR</a>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════════════ -->
+  <main class="main">
+
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <section class="hero" style="max-width:none; padding:5rem 3rem 3.5rem; border-bottom:1px solid var(--cream-border);">
+      <div style="max-width:640px; margin:0 auto; text-align:center;">
+        <div class="hero-eyebrow">
+          <span class="hero-eyebrow-dot"></span>
+          14 800 Product Managers abonnés · Newsletter gratuite &amp; Premium
+        </div>
+        <span class="hero-pill">Le média Produit #1 en France</span>
+        <h1 class="font-serif" style="font-size:46px; line-height:1.12; color:var(--ink); margin-bottom:1rem;">
+          Les ressorts des géants tech qui façonnent l'Europe
+        </h1>
+        <p class="hero-sub">
+          Chaque semaine, la newsletter qui décrypte stratégies produit, IA appliquée et carrières des meilleurs PM européens. Rejoignez 14 800 professionnels tech.
+        </p>
+        <form class="hero-form" onsubmit="return false">
+          <input type="email" placeholder="ton@email.com" />
+          <button>S'inscrire gratuitement</button>
+        </form>
+        <p class="hero-secondary">
+          <a href="#pricing">✦ Accès Premium → 680 membres</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ── LOGO BAR ───────────────────────────────────────── -->
+    <section class="logos-section">
+      <p class="logos-label">Rejoins les équipes produit de</p>
+      <div class="logos-track-wrap">
+        <div class="logos-track">
+          <span class="logo-item">Doctolib</span><span class="logo-dot"></span>
+          <span class="logo-item">Contentsquare</span><span class="logo-dot"></span>
+          <span class="logo-item">Payfit</span><span class="logo-dot"></span>
+          <span class="logo-item">Malt</span><span class="logo-dot"></span>
+          <span class="logo-item">Alan</span><span class="logo-dot"></span>
+          <span class="logo-item">BlaBlaCar</span><span class="logo-dot"></span>
+          <span class="logo-item">Qonto</span><span class="logo-dot"></span>
+          <span class="logo-item">Pennylane</span><span class="logo-dot"></span>
+          <span class="logo-item">Swile</span><span class="logo-dot"></span>
+          <span class="logo-item">Mirakl</span><span class="logo-dot"></span>
+          <span class="logo-item">Spendesk</span><span class="logo-dot"></span>
+          <span class="logo-item">Dataiku</span><span class="logo-dot"></span>
+          <!-- duplicate for infinite loop -->
+          <span class="logo-item">Doctolib</span><span class="logo-dot"></span>
+          <span class="logo-item">Contentsquare</span><span class="logo-dot"></span>
+          <span class="logo-item">Payfit</span><span class="logo-dot"></span>
+          <span class="logo-item">Malt</span><span class="logo-dot"></span>
+          <span class="logo-item">Alan</span><span class="logo-dot"></span>
+          <span class="logo-item">BlaBlaCar</span><span class="logo-dot"></span>
+          <span class="logo-item">Qonto</span><span class="logo-dot"></span>
+          <span class="logo-item">Pennylane</span><span class="logo-dot"></span>
+          <span class="logo-item">Swile</span><span class="logo-dot"></span>
+          <span class="logo-item">Mirakl</span><span class="logo-dot"></span>
+          <span class="logo-item">Spendesk</span><span class="logo-dot"></span>
+          <span class="logo-item">Dataiku</span><span class="logo-dot"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LATEST ARTICLES ────────────────────────────────── -->
+    <section class="articles-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Derniers articles</p>
+          <h2 class="section-title font-serif">Ce qu'il faut avoir lu cette semaine</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tous les articles →</a>
+      </div>
+      <div class="articles-list">
+
+        <a href="#" class="article-row">
+          <div class="art-thumb img-blue"></div>
+          <div class="art-body">
+            <div class="art-tags"><span class="tag tag-ia">IA &amp; Produit</span></div>
+            <h3 class="art-title font-serif">Comment Mistral construit ses features produit avec une équipe de 5 PM</h3>
+            <p class="art-excerpt">La startup française redéfinit les processus produit à l'ère de l'IA. Décryptage de leur approche unique avec des cycles courts et une culture du dogfooding radicale.</p>
+            <span class="art-meta">3 mars 2026 · 8 min de lecture</span>
+          </div>
+          <span class="art-cta">Lire →</span>
+        </a>
+
+        <a href="#" class="article-row">
+          <div class="art-thumb img-teal-d"></div>
+          <div class="art-body">
+            <div class="art-tags"><span class="tag tag-strategie">Stratégie Produit</span></div>
+            <h3 class="art-title font-serif">La thèse produit de Notion : pourquoi ils ont tout misé sur les blocs</h3>
+            <p class="art-excerpt">Retour sur 8 ans de décisions stratégiques chez Notion, de la quasi-faillite à la licorne. Quels principes ont guidé leurs choix de roadmap ?</p>
+            <span class="art-meta">28 fév. 2026 · 11 min de lecture</span>
+          </div>
+          <span class="art-cta">Lire →</span>
+        </a>
+
+        <a href="#" class="article-row">
+          <div class="art-thumb img-amber"></div>
+          <div class="art-body">
+            <div class="art-tags"><span class="tag tag-product">Roadmap &amp; OKR</span></div>
+            <h3 class="art-title font-serif">OKR : pourquoi 80% des équipes les utilisent mal (et comment faire mieux)</h3>
+            <p class="art-excerpt">Analyse de 40 équipes produit françaises. Les 3 erreurs systémiques dans la mise en place des OKR et les patterns qui fonctionnent vraiment.</p>
+            <span class="art-meta">24 fév. 2026 · 7 min de lecture</span>
+          </div>
+          <span class="art-cta">Lire →</span>
+        </a>
+
+        <a href="#" class="article-row">
+          <div class="art-thumb img-purple"></div>
+          <div class="art-body">
+            <div class="art-tags"><span class="tag tag-product">Fondamentaux</span></div>
+            <h3 class="art-title font-serif">Jobs-to-be-done : le guide complet pour les PM européens</h3>
+            <p class="art-excerpt">Clayton Christensen a posé les bases. Voici comment 12 équipes produit en France et en Allemagne l'appliquent concrètement en 2026.</p>
+            <span class="art-meta">20 fév. 2026 · 14 min de lecture</span>
+          </div>
+          <span class="art-cta">Lire →</span>
+        </a>
+
+        <a href="#" class="article-row">
+          <div class="art-thumb img-rose"></div>
+          <div class="art-body">
+            <div class="art-tags"><span class="tag tag-leadership">Management Produit</span></div>
+            <h3 class="art-title font-serif">De PM à Head of Product : les 5 compétences à développer en priorité</h3>
+            <p class="art-excerpt">Le passage du faire au faire-faire est le plus difficile de la carrière d'un PM. Retours d'expérience de 8 managers qui ont fait ce saut.</p>
+            <span class="art-meta">17 fév. 2026 · 9 min de lecture</span>
+          </div>
+          <span class="art-cta">Lire →</span>
+        </a>
+
+        <a href="#" class="article-row">
+          <div class="art-thumb img-slate"></div>
+          <div class="art-body">
+            <div class="art-tags"><span class="tag tag-ia">IA &amp; Produit</span></div>
+            <h3 class="art-title font-serif">Agent AI en production : leçons de 6 mois chez Payfit</h3>
+            <p class="art-excerpt">Comment l'équipe produit de Payfit a déployé ses premiers agents IA en production, mesuré l'impact, et restructuré toute la discovery.</p>
+            <span class="art-meta">12 fév. 2026 · 10 min de lecture</span>
+          </div>
+          <span class="art-cta">Lire →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── INTERVIEWS ─────────────────────────────────────── -->
+    <section class="interviews-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow" style="color:#4B9FFF;">Advice from builders, for builders</p>
+          <h2 class="section-title font-serif">Les dirigeants qui font la tech européenne</h2>
+        </div>
+        <a href="#" class="link-teal">Voir toutes les interviews →</a>
+      </div>
+      <p style="font-size:14px; color:var(--ink-light); margin:-1rem 0 1.75rem; line-height:1.6;">Nous interviewons les CEO, CPO, CTO et fondateurs des entreprises qui définissent la tech en Europe.</p>
+
+      <div class="interviews-grid">
+
+        <div class="expert-card">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="expert-avatar img-rose">NB</div>
+            <div>
+              <div class="expert-name">Nicolas Brusson</div>
+              <div class="expert-role">CEO &amp; Co-fondateur, BlaBlaCar</div>
+            </div>
+          </div>
+          <p class="expert-quote">"L'erreur classique des fondateurs européens est de viser l'Europe avant d'avoir un modèle unit economics solide."</p>
+          <a href="#" class="expert-link">Lire l'interview →</a>
+        </div>
+
+        <div class="expert-card">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="expert-avatar img-purple">SN</div>
+            <div>
+              <div class="expert-name">Stanislas Niox-Château</div>
+              <div class="expert-role">CEO &amp; Fondateur, Doctolib</div>
+            </div>
+          </div>
+          <p class="expert-quote">"Notre produit doit être si bon qu'il est évident pour un médecin de ne pas imaginer travailler sans nous."</p>
+          <a href="#" class="expert-link">Lire l'interview →</a>
+        </div>
+
+        <div class="expert-card">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="expert-avatar img-green">RV</div>
+            <div>
+              <div class="expert-name">Roxanne Varza</div>
+              <div class="expert-role">Directrice, Station F</div>
+            </div>
+          </div>
+          <p class="expert-quote">"L'écosystème tech européen a arrêté de se comparer à la Silicon Valley. Enfin."</p>
+          <a href="#" class="expert-link">Lire l'interview →</a>
+        </div>
+
+        <div class="expert-card">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="expert-avatar img-amber">AM</div>
+            <div>
+              <div class="expert-name">Alexandre Mahé</div>
+              <div class="expert-role">CPTO, Decathlon Digital</div>
+            </div>
+          </div>
+          <p class="expert-quote">"Transformer une organisation de 100 000 personnes avec l'IA, c'est d'abord un problème de culture, pas de technologie."</p>
+          <a href="#" class="expert-link">Lire l'interview →</a>
+        </div>
+
+        <div class="expert-card">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="expert-avatar img-teal-d">LD</div>
+            <div>
+              <div class="expert-name">Laure Duhot</div>
+              <div class="expert-role">Chief of Staff → CEO, Alan</div>
+            </div>
+          </div>
+          <p class="expert-quote">"Le rôle de Chief of Staff est souvent mal compris. Bien utilisé, c'est le multiplicateur de force du CEO."</p>
+          <a href="#" class="expert-link">Lire l'interview →</a>
+        </div>
+
+        <div class="expert-card">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="expert-avatar img-indigo">PG</div>
+            <div>
+              <div class="expert-name">Pierre-Guillaume Rouget</div>
+              <div class="expert-role">CTO, Contentsquare</div>
+            </div>
+          </div>
+          <p class="expert-quote">"Scaler une équipe tech de 50 à 400 ingénieurs : les process qui s'appliquent ne sont pas du tout les mêmes."</p>
+          <a href="#" class="expert-link">Lire l'interview →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Commencer sur Le Ticket ────── -->
+    <section class="jtbd-section" style="background:#fff;">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Pour commencer</p>
+          <h2 class="section-title font-serif">Commencer sur Le Ticket</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-teal-d img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags"><span class="tag tag-product">PRODUCT</span></div>
+            <span class="img-time">Guide · 18 min</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Les fondamentaux de la stratégie produit dans une scale-up</h3>
+            <p class="card-desc">Stratégie, discovery, roadmap, PLG, PMF — les frameworks qui font la différence entre un PM correct et un PM exceptionnel.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">Guide · Stratégie Produit</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-blue"></div>
+            <div>
+              <span class="tag tag-product">PRODUCT</span>
+              <h4 class="compact-title">Être Senior PM en 2026 : Retours croisés chez Dust, Payfit et Pennylane</h4>
+              <p class="compact-meta">Organisation Produit · 12 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-amber"></div>
+            <div>
+              <span class="tag tag-strategie">STRATÉGIE</span>
+              <h4 class="compact-title">Product-Market Fit : Le framework de First Round Capital pour percer</h4>
+              <p class="compact-meta">Todd Jackson · 13 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-purple"></div>
+            <div>
+              <span class="tag tag-product">PRODUCT</span>
+              <h4 class="compact-title">Le framework OKR de Figma, décrypté par son ex-VP Product</h4>
+              <p class="compact-meta">Sophie Martin · 11 min</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Enquêtes ─────────────────────── -->
+    <section class="jtbd-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Dans les coulisses</p>
+          <h2 class="section-title font-serif">Enquêtes dans les meilleures équipes Produit</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-rose img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags">
+              <span class="tag tag-strategie">STRATÉGIE</span>
+              <span class="badge badge-premium">PREMIUM</span>
+            </div>
+            <span class="img-time">15 min de lecture</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">BlaBlaCar à 10 ans : Nicolas Brusson revient sur les pivots qui ont tout changé</h3>
+            <p class="card-desc">Comment la scale-up est passée d'un service de covoiturage local à un groupe de mobilité présent dans 21 pays.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">Jean Dumas · 4 mars 2026</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-slate"></div>
+            <div>
+              <span class="tag tag-product">PRODUCT</span>
+              <h4 class="compact-title">Construire sa roadmap : dans les coulisses de Jump</h4>
+              <p class="compact-meta">Sarah Chiche · Jump · 9 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-green"></div>
+            <div>
+              <span class="tag tag-growth">GROWTH</span>
+              <h4 class="compact-title">L'aventure du virage Product-led Growth de Yousign</h4>
+              <p class="compact-meta">11 min · 14 fév. 2026</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-indigo"></div>
+            <div>
+              <div style="display:flex; gap:5px; align-items:center;">
+                <span class="tag tag-strategie">DANS LES COULISSES</span>
+                <span class="badge badge-premium" style="font-size:9px;">PREMIUM</span>
+              </div>
+              <h4 class="compact-title">Vendre sa boîte et refondre son produit de A à Z</h4>
+              <p class="compact-meta">Julie Chane Ching · Bloom atWork · 15 min</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EPISODES ───────────────────────────────────────── -->
+    <section class="emissions-section">
+      <div class="emissions-header">
+        <p class="emissions-eyebrow">Podcast · Vidéo</p>
+        <h2 class="emissions-title font-serif">Les Émissions du Ticket</h2>
+        <p class="emissions-sub">Conversations profondes avec les meilleurs esprits du produit en Europe</p>
+      </div>
+      <div class="emissions-grid">
+        <div class="video-card">
+          <div class="video-thumb img-navy">
+            <div class="play-overlay"><div class="play-circle">▶</div></div>
+          </div>
+          <div class="video-info">
+            <div class="video-author">Tanguy Verluise · Épisode 48</div>
+            <div class="video-title">Comment Doctolib a revu toute sa discovery produit après l'IA</div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb img-teal-d">
+            <div class="play-overlay"><div class="play-circle">▶</div></div>
+          </div>
+          <div class="video-info">
+            <div class="video-author">Tanguy Verluise · Épisode 47</div>
+            <div class="video-title">OKR, PI Planning, Shape Up : quel framework pour quelle équipe ?</div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb img-indigo">
+            <div class="play-overlay"><div class="play-circle">▶</div></div>
+          </div>
+          <div class="video-info">
+            <div class="video-author">Tanguy Verluise · Épisode 46</div>
+            <div class="video-title">Les 10 livres produit qui ont changé notre façon de travailler</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Se former à l'IA en 2026 ──── -->
+    <section class="jtbd-section" style="background:#fff;">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Pourquoi lire Le Ticket</p>
+          <h2 class="section-title font-serif">Se former à l'IA en 2026</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-navy img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags">
+              <span class="tag tag-ia">INTELLIGENCE ARTIFICIELLE</span>
+              <span class="badge badge-premium">PREMIUM</span>
+            </div>
+            <span class="img-time">14 min de lecture</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Comment Skello a bâti un assistant IA pour les RH basé sur architecture MCP</h3>
+            <p class="card-desc">Aude Clerc, Staff AI PM chez Skello, détaille l'architecture, les choix techniques et les pièges évités.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">Aude Clerc · Skello</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-blue"></div>
+            <div>
+              <span class="tag tag-ia">IA</span>
+              <h4 class="compact-title">Recherche sémantique par IA pour des millions d'utilisateurs</h4>
+              <p class="compact-meta">Capucine Tiberghien &amp; Quentin Ménard · TheFork · 11 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-amber"></div>
+            <div>
+              <span class="tag tag-strategie">COMMERCE</span>
+              <h4 class="compact-title">Commerce agentique : 10 éléments à connaître sur le commerce du futur</h4>
+              <p class="compact-meta">Anne-Claire Baschet · Mirakl · 14 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-green"></div>
+            <div>
+              <div style="display:flex; gap:5px; align-items:center;">
+                <span class="tag tag-ia">IA</span>
+                <span class="badge badge-premium" style="font-size:9px;">PREMIUM</span>
+              </div>
+              <h4 class="compact-title">Les agents IA en production : retours d'expérience de 8 CTO européens</h4>
+              <p class="compact-meta">13 min · 28 fév. 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Construire des OKR et une Roadmap ── -->
+    <section class="jtbd-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Pourquoi lire Le Ticket</p>
+          <h2 class="section-title font-serif">Construire des OKR et une Roadmap</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-purple img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags">
+              <span class="tag tag-product">PRODUCT</span>
+              <span class="badge badge-premium">PREMIUM</span>
+            </div>
+            <span class="img-time">Guide · 18 min</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Le framework OKR de Figma, décrypté par son ex-VP Product</h3>
+            <p class="card-desc">Comment Figma a structuré ses objectifs produit trimestre après trimestre, et pourquoi la plupart des équipes se trompent sur l'essence des OKR.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">Sophie Martin · 11 min</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-slate"></div>
+            <div>
+              <span class="tag tag-product">PRODUCT</span>
+              <h4 class="compact-title">Construire sa roadmap : dans les coulisses de Jump</h4>
+              <p class="compact-meta">Sarah Chiche · Jump · 9 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-amber"></div>
+            <div>
+              <span class="tag tag-product">ROADMAP</span>
+              <h4 class="compact-title">Comment les CPTO européens réinventent leurs roadmaps à l'ère de l'IA générative</h4>
+              <p class="compact-meta">Marie Laurent · 12 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-teal-d"></div>
+            <div>
+              <span class="tag tag-product">FRAMEWORKS</span>
+              <h4 class="compact-title">OKR, PI Planning, Shape Up : quel framework pour quelle équipe ?</h4>
+              <p class="compact-meta">Émission 47 · 45 min</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Nos contenus pour les CEO et fondateurs ── -->
+    <section class="jtbd-section" style="background:#fff;">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Par audience</p>
+          <h2 class="section-title font-serif">Nos contenus pour les CEO et fondateurs</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-rose img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags"><span class="tag tag-leadership">LEADERSHIP</span></div>
+            <span class="img-time">15 min de lecture</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">BlaBlaCar à 10 ans : Nicolas Brusson revient sur les pivots qui ont tout changé</h3>
+            <p class="card-desc">Comment la scale-up est passée d'un service de covoiturage local à un groupe de mobilité présent dans 21 pays.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">Jean Dumas · 4 mars 2026</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-amber"></div>
+            <div>
+              <span class="tag tag-strategie">STRATÉGIE</span>
+              <h4 class="compact-title">Product-Market Fit : Le framework de First Round Capital pour percer</h4>
+              <p class="compact-meta">Todd Jackson · 13 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-blue"></div>
+            <div>
+              <span class="tag tag-leadership">LEADERSHIP</span>
+              <h4 class="compact-title">Chief of Staff : le rôle qui manquait aux scale-ups européennes</h4>
+              <p class="compact-meta">10 min · 21 fév. 2026</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-green"></div>
+            <div>
+              <span class="tag tag-growth">GROWTH</span>
+              <h4 class="compact-title">L'aventure du virage Product-led Growth de Yousign</h4>
+              <p class="compact-meta">11 min · 14 fév. 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Nos contenus pour les CTO ────── -->
+    <section class="jtbd-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Par audience</p>
+          <h2 class="section-title font-serif">Nos contenus pour les CTO</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-indigo img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags">
+              <span class="tag tag-tech">TECH</span>
+              <span class="badge badge-premium">PREMIUM</span>
+            </div>
+            <span class="img-time">13 min de lecture</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Les agents IA en production : retours d'expérience de 8 CTO européens</h3>
+            <p class="card-desc">Comment passer des POC aux déploiements en production, gérer les hallucinations et mesurer le ROI réel de l'IA générative.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">13 min · 28 fév. 2026</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-navy"></div>
+            <div>
+              <span class="tag tag-ia">IA</span>
+              <h4 class="compact-title">Comment Skello a bâti un assistant IA pour les RH basé sur architecture MCP</h4>
+              <p class="compact-meta">Aude Clerc · Skello · 14 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-slate"></div>
+            <div>
+              <span class="tag tag-tech">ENGINEERING</span>
+              <h4 class="compact-title">Scaler une équipe tech de 50 à 400 ingénieurs : les leçons de Contentsquare</h4>
+              <p class="compact-meta">Pierre-Guillaume Rouget · 12 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-teal-d"></div>
+            <div>
+              <span class="tag tag-ia">IA</span>
+              <h4 class="compact-title">Recherche sémantique par IA pour des millions d'utilisateurs</h4>
+              <p class="compact-meta">Capucine Tiberghien · TheFork · 11 min</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT SECTION: Nos contenus pour les CMO ────── -->
+    <section class="jtbd-section" style="background:#fff;">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Par audience</p>
+          <h2 class="section-title font-serif">Nos contenus pour les CMO</h2>
+        </div>
+        <a href="#" class="link-teal">Voir tout →</a>
+      </div>
+      <div class="jtbd-grid">
+        <div class="featured-card">
+          <div class="img-orange img-zone">
+            <div class="img-overlay"></div>
+            <div class="img-tags"><span class="tag tag-growth">GROWTH &amp; MARKETING</span></div>
+            <span class="img-time">11 min de lecture</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">L'aventure du virage Product-led Growth de Yousign</h3>
+            <p class="card-desc">Comment l'éditeur de signature électronique a basculé d'un modèle Sales-led à PLG, et ce que ça a changé pour le marketing.</p>
+            <div class="card-footer">
+              <span style="font-size:11px; color:var(--ink-muted);">11 min · 14 fév. 2026</span>
+              <a href="#" class="link-teal">Lire →</a>
+            </div>
+          </div>
+        </div>
+        <div class="compact-stack">
+          <div class="compact-item">
+            <div class="compact-thumb img-amber"></div>
+            <div>
+              <span class="tag tag-growth">GROWTH</span>
+              <h4 class="compact-title">Commerce agentique : 10 éléments à connaître sur le commerce du futur</h4>
+              <p class="compact-meta">Anne-Claire Baschet · Mirakl · 14 min</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-rose"></div>
+            <div>
+              <span class="tag tag-strategie">STRATÉGIE</span>
+              <h4 class="compact-title">Pricing produit : les modèles qui fonctionnent en SaaS B2B européen</h4>
+              <p class="compact-meta">12 min · 7 fév. 2026</p>
+            </div>
+          </div>
+          <div class="compact-item">
+            <div class="compact-thumb img-blue"></div>
+            <div>
+              <span class="tag tag-growth">ACQUISITION</span>
+              <h4 class="compact-title">Product-Market Fit : Le framework de First Round Capital pour percer</h4>
+              <p class="compact-meta">Todd Jackson · 13 min</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRICING ────────────────────────────────────────── -->
+    <section id="pricing" class="pricing-section">
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <p class="eyebrow" style="margin-bottom:.5rem;">Investissez dans votre progression</p>
+        <h2 class="font-serif" style="font-size:36px; color:var(--ink); margin-bottom:.5rem;">Le Ticket Premium</h2>
+        <p style="font-size:14px; color:var(--ink-muted);">Tout ce qu'il faut pour progresser et faire progresser son produit.</p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card">
+          <div style="margin-bottom:1.5rem;">
+            <h3 class="font-serif" style="font-size:22px; color:var(--ink); margin-bottom:4px;">Le Ticket</h3>
+            <p style="font-size:13px; color:var(--ink-muted);">Gratuit</p>
+          </div>
+          <div style="margin-bottom:1.75rem;">
+            <div class="check-item">
+              <div class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              4 newsletters / mois <span style="color:var(--ink-muted); font-size:12px; margin-left:4px;">(dont 3 abrégées)</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Accès aux articles gratuits
+            </div>
+            <div class="cross-item">
+              <div class="cross-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></div>
+              L'intégralité des articles et guides
+            </div>
+            <div class="cross-item">
+              <div class="cross-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></div>
+              Les fiches de lecture Produit (30+)
+            </div>
+            <div class="cross-item">
+              <div class="cross-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></div>
+              Les Émissions du Ticket (vidéo)
+            </div>
+          </div>
+          <a href="#" style="display:block; text-align:center; border:1.5px solid #E5E0D8; color:var(--ink); font-weight:600; font-size:14px; padding:11px; border-radius:10px;">S'inscrire gratuitement</a>
+        </div>
+        <!-- Premium -->
+        <div class="pricing-card highlighted" style="position:relative; overflow:hidden;">
+          <div style="position:absolute; top:16px; right:16px; background:var(--amber); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:9999px;">−20% annuel</div>
+          <div style="margin-bottom:1.5rem;">
+            <h3 class="font-serif" style="font-size:22px; color:#fff; margin-bottom:4px;">Le Ticket <span style="color:var(--amber);">Premium</span></h3>
+            <p style="font-size:20px; font-weight:700; color:#fff;">200 € <span style="font-size:14px; font-weight:400; color:rgba(255,255,255,.6);">/ an</span> <span style="font-size:14px; font-weight:400; color:rgba(255,255,255,.4);">ou 20 €/mois</span></p>
+            <p style="font-size:11px; color:rgba(255,255,255,.4); margin-top:2px;">Tarif réduit 85 €/an · étudiants &amp; chercheurs d'emploi</p>
+          </div>
+          <div style="margin-bottom:2rem;">
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              4 newsletters intégrales / mois
+            </div>
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              L'intégralité des articles et guides
+            </div>
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Les fiches de lecture Produit <span style="color:rgba(255,255,255,.5); margin-left:3px;">(30+)</span>
+            </div>
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Les Émissions du Ticket (vidéo)
+            </div>
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Canal WhatsApp privé de veille
+            </div>
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Réductions sur les formations à l'IA
+            </div>
+            <div class="check-item" style="color:rgba(255,255,255,.85);">
+              <div class="check-icon check-icon-premium"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#E8A020" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Accès aux conférences à tarifs préférentiels
+            </div>
+          </div>
+          <a href="#" style="display:block; text-align:center; background:var(--amber); color:#fff; font-weight:700; font-size:14px; padding:12px; border-radius:10px; margin-bottom:10px;">Abonnement annuel — 200 €/an</a>
+          <a href="#" style="display:block; text-align:center; border:1.5px solid rgba(255,255,255,.2); color:rgba(255,255,255,.7); font-weight:600; font-size:14px; padding:11px; border-radius:10px;">Abonnement mensuel — 20 €/mois</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── NEWSLETTER CTA ─────────────────────────────────── -->
+    <section class="nl-cta-section">
+      <div class="nl-cta-inner">
+        <p class="eyebrow">Newsletter</p>
+        <h2>Pas encore prêt pour le Premium ?</h2>
+        <p>Recevez notre sélection hebdomadaire gratuite — les articles les plus importants de la semaine, directement dans votre boîte mail.</p>
+        <form class="nl-cta-form" onsubmit="return false;">
+          <input type="email" placeholder="votre@email.com" />
+          <button>S'inscrire gratuitement</button>
+        </form>
+        <p class="nl-cta-note">Sans spam. Désabonnement en un clic.</p>
+      </div>
+    </section>
+
+    <!-- ── FAQ ─────────────────────────────────────────────── -->
+    <section class="faq-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Questions fréquentes</p>
+          <h2 class="section-title font-serif">Tout ce que vous voulez savoir</h2>
+        </div>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Quelle est la différence entre la version gratuite et Premium ?<span class="faq-icon">+</span></summary>
+          <p class="faq-answer">La version gratuite vous donne accès à la newsletter hebdomadaire et à 3 articles par mois. Le Premium débloque l'intégralité du contenu : archives 3 ans, 150+ fiches de lecture, communauté WhatsApp, formations IA et conférences exclusives.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Puis-je résilier à tout moment ?<span class="faq-icon">+</span></summary>
+          <p class="faq-answer">Oui, sans condition. Vous pouvez résilier votre abonnement Premium à tout moment depuis votre espace membre. Votre accès reste actif jusqu'à la fin de la période en cours.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Le Ticket est-il fait pour les PM débutants ?<span class="faq-icon">+</span></summary>
+          <p class="faq-answer">Le Ticket s'adresse principalement aux PM avec au moins 1-2 ans d'expérience qui veulent progresser rapidement. Nous avons cependant une sélection "Fondamentaux" idéale pour les PM en début de carrière qui veulent se mettre à niveau.</p>
+        </details>
+        <details class="faq-item">
+          <summary>À quelle fréquence sont publiés les contenus ?<span class="faq-icon">+</span></summary>
+          <p class="faq-answer">La newsletter sort chaque lundi matin. Les articles longs paraissent 2 à 3 fois par semaine. Les émissions (podcast/vidéo) sortent bimensuellement. Les fiches de lecture sont ajoutées chaque semaine.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Mon entreprise peut-elle prendre en charge l'abonnement ?<span class="faq-icon">+</span></summary>
+          <p class="faq-answer">Absolument. Le Ticket Premium est éligible au budget formation dans la plupart des entreprises. Nous fournissons des factures conformes sur demande. Pour les abonnements équipe (5+), contactez-nous pour un tarif dédié.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ─────────────────────────────────────────── -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <span class="footer-brand font-serif">Le Ticket</span>
+        <div class="footer-links">
+          <a href="#">Mentions légales</a>
+          <a href="#">Politique de confidentialité</a>
+          <a href="#">Contact</a>
+        </div>
+        <span class="footer-copy">© 2026 Le Ticket</span>
+      </div>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>
