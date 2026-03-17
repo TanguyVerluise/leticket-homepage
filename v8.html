@@ -248,26 +248,29 @@
     }
     .slider-dot.active { background: var(--teal); }
 
-    /* ── JTBD (featured card + compact stack — Commencer & Enquêtes) ── */
-    .jtbd-section { padding: 3rem 3rem; border-bottom: 1px solid var(--cream-border); }
-    .jtbd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .featured-card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid var(--cream-border); box-shadow: 0 1px 3px rgba(0,0,0,.04); transition: transform .2s, box-shadow .2s; cursor: pointer; }
-    .featured-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(12,22,40,.1); }
-    .featured-card .img-zone { aspect-ratio: 16/9; position: relative; }
-    .featured-card .img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.45), transparent); }
-    .featured-card .img-tags { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; }
-    .featured-card .img-time { position: absolute; bottom: 14px; left: 14px; font-size: 11px; color: rgba(255,255,255,.8); }
-    .featured-card .card-body { padding: 1.25rem 1.375rem; }
-    .featured-card .card-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 20px; line-height: 1.3; color: var(--ink); margin-bottom: .625rem; }
-    .featured-card .card-desc { font-size: 13px; color: #6B7280; line-height: 1.6; margin-bottom: 1rem; }
-    .featured-card .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: .875rem; border-top: 1px solid #F3F4F6; }
-    .compact-stack { background: #fff; border-radius: 16px; border: 1px solid var(--cream-border); overflow: hidden; }
-    .compact-item { display: flex; gap: .875rem; padding: 1rem 1.125rem; border-bottom: 1px solid #F3F4F6; transition: background .15s; cursor: pointer; }
-    .compact-item:last-child { border-bottom: none; }
-    .compact-item:hover { background: #FAFAF9; }
-    .compact-thumb { width: 72px; aspect-ratio: 16/9; border-radius: 10px; flex-shrink: 0; }
-    .compact-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin-top: 4px; }
-    .compact-meta { font-size: 11px; color: var(--ink-muted); margin-top: 4px; }
+    /* ── LES PLUS LUS (Le Monde numbered grid) ─────────── */
+    .plus-lus-section { padding: 3rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .plus-lus-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    }
+    .plus-lus-item {
+      display: flex; gap: .875rem; padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--cream-border);
+      border-right: 1px solid var(--cream-border);
+      cursor: pointer; transition: background .15s;
+    }
+    .plus-lus-item:hover { background: rgba(255,255,255,.6); }
+    .plus-lus-item:nth-child(3n) { border-right: none; }
+    .plus-lus-item:nth-child(n+7) { border-bottom: none; }
+    .plus-lus-num {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 32px; color: var(--ink-muted); opacity: .35;
+      line-height: 1; flex-shrink: 0; width: 28px;
+    }
+    .plus-lus-title {
+      font-size: 14px; font-weight: 500; color: var(--ink);
+      line-height: 1.5;
+    }
 
     /* ── SHELF (Le Monde compact — v7) ───────────────────── */
     .shelf-section { padding: 3rem 3rem; border-bottom: 1px solid var(--cream-border); }
@@ -512,8 +515,7 @@
         </div>
       </div>
 
-      <!-- Most Popular -->
-      <p class="most-popular-label">Most Popular</p>
+      <!-- Secondary articles -->
       <div class="most-popular-row">
         <a href="#" class="pop-card">
           <div class="pop-card-inner">
@@ -674,126 +676,51 @@
       </script>
     </section>
 
-    <!-- ── CONTENT SECTION: Commencer sur Le Ticket (KEPT AS-IS) ── -->
-    <section class="jtbd-section" style="background:#fff;">
+    <!-- ── LES PLUS LUS (Le Monde numbered grid) ────────── -->
+    <section class="plus-lus-section" style="background:#fff;">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Pour commencer</p>
-          <h2 class="section-title font-serif">Commencer sur Le Ticket</h2>
+          <h2 class="section-title font-serif">Les plus lus</h2>
         </div>
-        <a href="#" class="link-teal">Voir tout →</a>
+        <a href="#" class="link-teal">Voir tous les articles →</a>
       </div>
-      <div class="jtbd-grid">
-        <div class="featured-card">
-          <div class="img-teal-d img-zone">
-            <div class="img-overlay"></div>
-            <div class="img-tags"><span class="tag tag-product">PRODUCT</span></div>
-            <span class="img-time">Guide · 18 min</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Les fondamentaux de la stratégie produit dans une scale-up</h3>
-            <p class="card-desc">Stratégie, discovery, roadmap, PLG, PMF — les frameworks qui font la différence entre un PM correct et un PM exceptionnel.</p>
-            <div class="card-footer">
-              <span style="font-size:11px; color:var(--ink-muted);">Guide · Stratégie Produit</span>
-              <a href="#" class="link-teal">Lire →</a>
-            </div>
-          </div>
-        </div>
-        <div class="compact-stack">
-          <div class="compact-item">
-            <div class="compact-thumb img-blue"></div>
-            <div>
-              <span class="tag tag-product">PRODUCT</span>
-              <h4 class="compact-title">Être Senior PM en 2026 : Retours croisés chez Dust, Payfit et Pennylane</h4>
-              <p class="compact-meta">Organisation Produit · 12 min</p>
-            </div>
-          </div>
-          <div class="compact-item">
-            <div class="compact-thumb img-amber"></div>
-            <div>
-              <div style="display:flex; gap:5px; align-items:center;">
-                <span class="tag tag-strategie">STRATÉGIE</span>
-                <span class="badge badge-premium" style="font-size:9px;">PREMIUM</span>
-              </div>
-              <h4 class="compact-title">Product-Market Fit : Le framework de First Round Capital pour percer</h4>
-              <p class="compact-meta">Todd Jackson · 13 min</p>
-            </div>
-          </div>
-          <div class="compact-item">
-            <div class="compact-thumb img-purple"></div>
-            <div>
-              <div style="display:flex; gap:5px; align-items:center;">
-                <span class="tag tag-product">PRODUCT</span>
-                <span class="badge badge-premium" style="font-size:9px;">PREMIUM</span>
-              </div>
-              <h4 class="compact-title">Le framework OKR de Figma, décrypté par son ex-VP Product</h4>
-              <p class="compact-meta">Sophie Martin · 11 min</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CONTENT SECTION: Enquêtes (KEPT AS-IS) ────────── -->
-    <section class="jtbd-section">
-      <div class="section-header">
-        <div>
-          <p class="eyebrow">Dans les coulisses</p>
-          <h2 class="section-title font-serif">Enquêtes dans les meilleures équipes Produit</h2>
-        </div>
-        <a href="#" class="link-teal">Voir tout →</a>
-      </div>
-      <div class="jtbd-grid">
-        <div class="featured-card">
-          <div class="img-rose img-zone">
-            <div class="img-overlay"></div>
-            <div class="img-tags">
-              <span class="tag tag-strategie">STRATÉGIE</span>
-              <span class="badge badge-premium">PREMIUM</span>
-            </div>
-            <span class="img-time">15 min de lecture</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">BlaBlaCar à 10 ans : Nicolas Brusson revient sur les pivots qui ont tout changé</h3>
-            <p class="card-desc">Comment la scale-up est passée d'un service de covoiturage local à un groupe de mobilité présent dans 21 pays.</p>
-            <div class="card-footer">
-              <span style="font-size:11px; color:var(--ink-muted);">Jean Dumas · 4 mars 2026</span>
-              <a href="#" class="link-teal">Lire →</a>
-            </div>
-          </div>
-        </div>
-        <div class="compact-stack">
-          <div class="compact-item">
-            <div class="compact-thumb img-slate"></div>
-            <div>
-              <span class="tag tag-product">PRODUCT</span>
-              <h4 class="compact-title">Construire sa roadmap : dans les coulisses de Jump</h4>
-              <p class="compact-meta">Sarah Chiche · Jump · 9 min</p>
-            </div>
-          </div>
-          <div class="compact-item">
-            <div class="compact-thumb img-green"></div>
-            <div>
-              <div style="display:flex; gap:5px; align-items:center;">
-                <span class="tag tag-growth">GROWTH</span>
-                <span class="badge badge-premium" style="font-size:9px;">PREMIUM</span>
-              </div>
-              <h4 class="compact-title">L'aventure du virage Product-led Growth de Yousign</h4>
-              <p class="compact-meta">11 min · 14 fév. 2026</p>
-            </div>
-          </div>
-          <div class="compact-item">
-            <div class="compact-thumb img-indigo"></div>
-            <div>
-              <div style="display:flex; gap:5px; align-items:center;">
-                <span class="tag tag-strategie">DANS LES COULISSES</span>
-                <span class="badge badge-premium" style="font-size:9px;">PREMIUM</span>
-              </div>
-              <h4 class="compact-title">Vendre sa boîte et refondre son produit de A à Z</h4>
-              <p class="compact-meta">Julie Chane Ching · Bloom atWork · 15 min</p>
-            </div>
-          </div>
-        </div>
+      <div class="plus-lus-grid">
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">1</span>
+          <span class="plus-lus-title">Comment Mistral construit ses features produit avec une équipe de 5 PM</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">4</span>
+          <span class="plus-lus-title">Les fondamentaux de la stratégie produit dans une scale-up</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">7</span>
+          <span class="plus-lus-title">Product-Market Fit : le framework de First Round Capital pour percer</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">2</span>
+          <span class="plus-lus-title">OKR : pourquoi 80% des équipes les utilisent mal (et comment faire mieux)</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">5</span>
+          <span class="plus-lus-title">BlaBlaCar à 10 ans : Nicolas Brusson revient sur les pivots qui ont tout changé</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">8</span>
+          <span class="plus-lus-title">Commerce agentique : 10 éléments à connaître sur le commerce du futur</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">3</span>
+          <span class="plus-lus-title">La thèse produit de Notion : pourquoi ils ont tout misé sur les blocs</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">6</span>
+          <span class="plus-lus-title">L'aventure du virage Product-led Growth de Yousign</span>
+        </a>
+        <a href="#" class="plus-lus-item">
+          <span class="plus-lus-num">9</span>
+          <span class="plus-lus-title">Les agents IA en production : retours d'expérience de 8 CTO européens</span>
+        </a>
       </div>
     </section>
 
