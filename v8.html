@@ -87,17 +87,17 @@
     .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--cream-border); }
     .section-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 32px; color: var(--ink); line-height: 1.15; }
 
-    /* ── HERO (compact v7) ───────────────────────────────── */
+    /* ── HERO (compact v8) ───────────────────────────────── */
     .hero {
-      padding: 3rem 3rem 2.5rem;
-      border-bottom: 1px solid var(--cream-border);
+      padding: 2rem 3rem 1.75rem;
+      border-bottom: none;
       text-align: center;
     }
     .hero-tagline {
       display: flex; align-items: center; justify-content: center; gap: 10px;
       font-size: 11px; font-weight: 600; letter-spacing: .18em;
       text-transform: uppercase; color: var(--teal);
-      margin-bottom: 1rem;
+      margin-bottom: .75rem;
     }
     .hero-tagline::before,
     .hero-tagline::after {
@@ -105,48 +105,39 @@
       width: 28px; height: 1px; background: var(--teal); opacity: .35;
     }
     .hero-sub-note {
-      font-size: 13px; color: var(--ink-muted); margin-top: .75rem;
+      font-size: 13px; color: var(--ink-muted); margin-top: .5rem;
     }
     .hero h1 {
-      font-size: 42px; line-height: 1.12;
-      color: var(--ink); margin-bottom: 1.25rem;
+      font-size: 38px; line-height: 1.12;
+      color: var(--ink); margin-bottom: 1rem;
       max-width: 640px; margin-left: auto; margin-right: auto;
     }
     .hero-form {
-      display: flex; gap: .625rem; max-width: 440px; margin: 0 auto 1rem;
+      display: flex; gap: .625rem; max-width: 440px; margin: 0 auto .5rem;
     }
     .hero-form input {
       flex: 1; background: #fff; border: 1.5px solid var(--cream-border);
-      font-size: 14px; padding: 12px 16px; border-radius: 10px;
+      font-size: 14px; padding: 10px 16px; border-radius: 10px;
       color: var(--ink); outline: none; font-family: inherit;
     }
     .hero-form input:focus { border-color: var(--teal-mid); }
     .hero-form input::placeholder { color: var(--ink-muted); }
     .hero-form button {
       background: var(--teal); color: #fff; font-weight: 700;
-      font-size: 14px; padding: 12px 22px; border-radius: 10px;
+      font-size: 14px; padding: 10px 22px; border-radius: 10px;
       border: none; cursor: pointer; white-space: nowrap; font-family: inherit;
       transition: background .15s;
     }
     .hero-form button:hover { background: #0a4636; }
-    /* ── LOGO BAR + PREMIUM (merged v8) ────────────────── */
+    /* ── PREMIUM LOGO BAR (compact v8) ──────────────────── */
     .logos-premium-section {
-      padding: 1.75rem 3rem;
+      padding: 1rem 3rem 1.25rem;
       background: linear-gradient(135deg, #78350F, #92400E 50%, #B45309);
       border-bottom: 1px solid var(--cream-border);
       text-align: center;
     }
-    .logos-premium-label {
-      font-size: 12px; font-weight: 600; letter-spacing: .08em;
-      text-transform: uppercase; color: rgba(255,255,255,.6);
-      margin-bottom: .5rem;
-    }
-    .logos-premium-title {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 20px; color: #fff; margin-bottom: .25rem;
-    }
     .logos-premium-sub {
-      font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 1.25rem;
+      font-size: 12px; color: rgba(255,255,255,.5); margin-bottom: .75rem;
     }
     .logos-premium-sub a {
       font-weight: 700; color: #FCD34D;
@@ -155,27 +146,27 @@
     .logos-premium-sub a:hover { color: #FDE68A; }
     .logos-row {
       display: flex; flex-wrap: nowrap; justify-content: center;
-      align-items: center; gap: 1.25rem;
+      align-items: center; gap: .375rem 1.5rem;
     }
-    .logo-item {
-      font-size: 14px; font-weight: 600; color: rgba(255,255,255,.75);
+    .logo-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,.8);
       white-space: nowrap;
     }
-    .logo-dot {
-      width: 3px; height: 3px; border-radius: 50%;
-      background: rgba(255,255,255,.3);
-      display: inline-block;
+    .logo-pill img {
+      width: 18px; height: 18px; border-radius: 4px;
+      object-fit: contain; background: #fff;
     }
 
     /* ── FEATURED ARTICLE (Lenny-style v8) ─────────────── */
-    .articles-section { padding: 3rem 3rem; border-bottom: 1px solid var(--cream-border); }
+    .articles-section { padding: 2rem 3rem 3rem; border-bottom: 1px solid var(--cream-border); }
     .feat-hero {
       display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
       align-items: center; margin-bottom: 3rem;
       padding-bottom: 2.5rem; border-bottom: 1px solid var(--cream-border);
     }
     .feat-hero-img {
-      aspect-ratio: 4/3; border-radius: 16px; overflow: hidden;
+      aspect-ratio: 16/9; border-radius: 16px; overflow: hidden;
     }
     .feat-hero-body {}
     .feat-hero-title {
@@ -482,22 +473,20 @@
       </div>
     </section>
 
-    <!-- ── LOGO BAR + PREMIUM (merged v8) ────────────────── -->
+    <!-- ── PREMIUM LOGO BAR (compact v8) ─────────────────── -->
     <section class="logos-premium-section">
-      <p class="logos-premium-label">Le Ticket Premium</p>
-      <h2 class="logos-premium-title font-serif">Ces équipes ont déjà accès au Premium</h2>
-      <p class="logos-premium-sub">Accès intégral à 500+ articles, guides et fiches de lecture. <a href="#pricing">Découvrir l'offre →</a></p>
+      <p class="logos-premium-sub">Ces équipes ont accès au <strong style="color:rgba(255,255,255,.85);">Premium</strong>. <a href="#pricing">Découvrir l'offre →</a></p>
       <div class="logos-row">
-        <span class="logo-item">Doctolib</span><span class="logo-dot"></span>
-        <span class="logo-item">Contentsquare</span><span class="logo-dot"></span>
-        <span class="logo-item">Payfit</span><span class="logo-dot"></span>
-        <span class="logo-item">Malt</span><span class="logo-dot"></span>
-        <span class="logo-item">Alan</span><span class="logo-dot"></span>
-        <span class="logo-item">BlaBlaCar</span><span class="logo-dot"></span>
-        <span class="logo-item">Qonto</span><span class="logo-dot"></span>
-        <span class="logo-item">Pennylane</span><span class="logo-dot"></span>
-        <span class="logo-item">Swile</span><span class="logo-dot"></span>
-        <span class="logo-item">Spendesk</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/doctolib.fr?size=80" alt="" /> Doctolib</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/contentsquare.com?size=80" alt="" /> Contentsquare</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/payfit.com?size=80" alt="" /> Payfit</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/malt.fr?size=80" alt="" /> Malt</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/alan.com?size=80" alt="" /> Alan</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/blablacar.com?size=80" alt="" /> BlaBlaCar</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/qonto.com?size=80" alt="" /> Qonto</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/pennylane.com?size=80" alt="" /> Pennylane</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/swile.co?size=80" alt="" /> Swile</span>
+        <span class="logo-pill"><img src="https://logo.clearbit.com/spendesk.com?size=80" alt="" /> Spendesk</span>
       </div>
     </section>
 
